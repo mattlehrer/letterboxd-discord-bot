@@ -1,10 +1,9 @@
-import { REST } from '@discordjs/rest'
-import { Routes } from 'discord-api-types/v9'
-import { Commands } from 'src/commands/command'
-import 'dotenv/config'
-import { Guild } from 'discord.js'
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
+import 'dotenv/config';
+import { Commands } from '../commands/command';
 
-const clientId = process.env.DISCORD_CLIENT_ID
+const clientId = process.env.DISCORD_CLIENT_ID;
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
@@ -13,15 +12,15 @@ export async function DeployCommands(guildId: string): Promise<void> {
 		// console.log(`Deploying slash commands to ${guildId} ...`)
 
 		const resp = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId), {
-				body: Commands.map(c => c.command.toJSON())
+			Routes.applicationGuildCommands(clientId, guildId),
+			{
+				body: Commands.map((c) => c.command.toJSON()),
 			},
-		)
+		);
 		// console.log(resp)
 
 		// console.log('Successfully deployed slash commands.')
-	}
-	catch (error) {
+	} catch (error) {
 		console.error(error);
 	}
 }
